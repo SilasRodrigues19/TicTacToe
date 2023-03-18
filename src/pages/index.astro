@@ -1,0 +1,27 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Square from '../components/Square.astro';
+
+interface Props {
+  TIC_TAC_TOE_SQUARES: number;
+}
+
+const { TIC_TAC_TOE_SQUARES = 9 } = Astro.props;
+---
+
+<Layout title="Tic Tac Toe Game.">
+	<main class="min-h-screen h-full w-full flex justify-center items-center">
+		<section class="bg-gray-900 rounded-lg shadow-lg p-12">
+				<h1 class="text-4xl text-white mb-6 text-center">Tic Tac Toe</h1>
+				<div class="grid grid-cols-3 gap-4 mb-6">
+						{ 
+							Array.from({ length: TIC_TAC_TOE_SQUARES }).map((_, index) => <Square key={index} />)
+						}
+				</div>
+				<p id="status" class="text-white text-2xl mb-4"></p>
+				<button id="reset-btn" class="bg-green-500 w-full h-12 text-white rounded-lg px-4 py-2 hover:bg-green-600 transition-colors duration-200 focus:ring-4 focus:outline-none focus:ring-green-800">
+					Reset
+				</button>
+		</section>
+	</main>
+</Layout>

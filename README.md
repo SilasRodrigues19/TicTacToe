@@ -52,7 +52,6 @@
 
 The game of tic-tac-toe is a game of alternating moves with a board of 9 pieces, the winner is whoever makes a straight or diagonal sequence with a sequence of 3 pieces. Players are represented by "X" and "O"
 
-
 ### Built With
 
 Technologies used in the project.
@@ -72,10 +71,11 @@ Technologies used in the project.
    ```sh
    git clone https://github.com/SilasRodrigues19/TicTacToe.git
    ```
-2. Access the folder with thw following command: 
-    ```sh
-    cd TicTacToe
-    ```
+2. Access the folder with thw following command:
+
+   ```sh
+   cd TicTacToe
+   ```
 
 3. Install dependencies
    ```sh

@@ -72,7 +72,7 @@ Technologies used in the project.
    ```sh
    git clone https://github.com/SilasRodrigues19/TicTacToe.git
    ```
-2. Access the folder with thw following command: 
+2. Access the folder with the following command: 
     ```sh
     cd TicTacToe
     ```

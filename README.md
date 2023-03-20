@@ -17,7 +17,7 @@
   <p align="center">
     A simple tic-tac-toe
     <br />
-    <a href="https://markdown-live-preview.vercel.app/">Demo</a>
+    <a href="https://tic-tac-toe-four.vercel.app/">Demo</a>
     <a href="https://github.com/SilasRodrigues19/TicTacToe/issues">Report Bug</a>
   </p>
 </p>
@@ -48,7 +48,7 @@
 
 ## About The Project
 
-[![Preview][product-screenshot]](https://markdown-live-preview.vercel.app/)<hr>
+[![Preview][product-screenshot]](https://tic-tac-toe-four.vercel.app/)<hr>
 
 The game of tic-tac-toe is a game of alternating moves with a board of 9 pieces, the winner is whoever makes a straight or diagonal sequence with a sequence of 3 pieces. Players are represented by "X" and "O"
 

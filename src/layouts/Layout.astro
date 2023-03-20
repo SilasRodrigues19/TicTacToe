@@ -4,14 +4,20 @@ export interface Props {
 }
 
 const { title } = Astro.props;
+
+import styles from '../styles/style.css';
 ---
 
 <!DOCTYPE html>
 <html lang="en">
 	<head>
+		<!-- Pre connect -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;700&display=swap" rel="stylesheet">
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 	</head>

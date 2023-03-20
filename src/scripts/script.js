@@ -30,7 +30,7 @@ const updateStatus = (message) => (statusEl.textContent = message);
 
 const updatePlayer = () => {
   currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-  updateStatus(`${currentPlayer} player turn`);
+  updateStatus(`${currentPlayer} player's turn`);
 };
 
 const checkWinner = () => {
@@ -56,6 +56,14 @@ const checkWinner = () => {
       updateStatus(gameStatus);
       gameOn = false;
       gameStatus.includes('won') && (resetBtnEl.innerText = 'Play again');
+      const winnerElements = [boardEl[a], boardEl[b], boardEl[c]];
+      winnerElements.forEach((el) => {
+        el.classList.add('winner');
+        el.innerHTML =
+          board[a] === 'X'
+            ? svgX.replace('currentColor', '#FF7F50 ')
+            : svgO.replace('currentColor', '#457B9D ');
+      });
       return;
     }
   }
@@ -82,8 +90,11 @@ const resetGame = () => {
   gameOn = true;
   boardEl.forEach((square) => {
     square.textContent = '';
+    square.classList.remove('winner');
+    square.classList.remove('rotate');
+    square.classList.remove('scale');
   });
-  updateStatus(`${currentPlayer} player turn`);
+  updateStatus(`${currentPlayer} player's turn`);
 };
 
 boardEl.forEach((square, index) => {
@@ -97,4 +108,4 @@ boardEl.forEach((square, index) => {
 
 resetBtnEl.addEventListener('click', resetGame);
 
-updateStatus(`${currentPlayer} player turn`);
+updateStatus(`${currentPlayer} player's turn`);

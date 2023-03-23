@@ -9,37 +9,38 @@
  */
 
 const selectElement = (el, shouldSelectAll = false) => {
-  if (typeof el === 'string') {
-    return shouldSelectAll ? document.querySelectorAll(el)
-                           : document.querySelector(el);
+  if (typeof el === "string") {
+    return shouldSelectAll
+      ? document.querySelectorAll(el)
+      : document.querySelector(el);
   }
   return el;
 };
 
-const aiPlayer = 'O';
+const aiPlayer = "O";
 let isAiPlayer = false;
-let playingWith = selectElement('#playing-with');
+let playingWith = selectElement("#playing-with");
 
-const svgX =
-    `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 256 256"><path fill="currentColor" d="M208.49 191.51a12 12 0 0 1-17 17L128 145l-63.51 63.49a12 12 0 0 1-17-17L111 128L47.51 64.49a12 12 0 0 1 17-17L128 111l63.51-63.52a12 12 0 0 1 17 17L145 128Z"/></svg>`;
-const svgO =
-    `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><path fill="currentColor" fill-rule="evenodd" d="M10 24c0-7.732 6.268-14 14-14s14 6.268 14 14s-6.268 14-14 14s-14-6.268-14-14Zm14-10c-5.523 0-10 4.477-10 10s4.477 10 10 10s10-4.477 10-10s-4.477-10-10-10Z" clip-rule="evenodd"/></svg>`;
+const svgX = `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 256 256"><path fill="currentColor" d="M208.49 191.51a12 12 0 0 1-17 17L128 145l-63.51 63.49a12 12 0 0 1-17-17L111 128L47.51 64.49a12 12 0 0 1 17-17L128 111l63.51-63.52a12 12 0 0 1 17 17L145 128Z"/></svg>`;
+const svgO = `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><path fill="currentColor" fill-rule="evenodd" d="M10 24c0-7.732 6.268-14 14-14s14 6.268 14 14s-6.268 14-14 14s-14-6.268-14-14Zm14-10c-5.523 0-10 4.477-10 10s4.477 10 10 10s10-4.477 10-10s-4.477-10-10-10Z" clip-rule="evenodd"/></svg>`;
 
-const boardEl = selectElement('.board-square', true),
-      statusEl = selectElement('#status'),
-      playAgainstIA = selectElement('#play-ia-btn'),
-      playAgainstPeople = selectElement('#play-people-btn'),
-      resetBtnEl = selectElement('#reset-btn');
+const boardEl = selectElement(".board-square", true),
+  statusEl = selectElement("#status"),
+  playAgainstIA = selectElement("#play-ia-btn"),
+  playAgainstPeople = selectElement("#play-people-btn"),
+  resetBtnEl = selectElement("#reset-btn");
 
-let board = [ '', '', '', '', '', '', '', '', '' ], currentPlayer = 'X',
-    gameStatus = '', gameOn = true;
+let board = ["", "", "", "", "", "", "", "", ""],
+  currentPlayer = "X",
+  gameStatus = "",
+  gameOn = true;
 
-playAgainstIA.addEventListener('click', () => {
+playAgainstIA.addEventListener("click", () => {
   isAiPlayer = true;
   resetGame();
 });
 
-playAgainstPeople.addEventListener('click', () => {
+playAgainstPeople.addEventListener("click", () => {
   isAiPlayer = false;
   resetGame();
 });
@@ -47,17 +48,21 @@ playAgainstPeople.addEventListener('click', () => {
 const updateStatus = (message) => (statusEl.textContent = message);
 
 const updatePlayer = () => {
-  currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+  currentPlayer = currentPlayer === "X" ? "O" : "X";
   if (currentPlayer === aiPlayer && isAiPlayer) {
-    setTimeout(() => { makeAiMove(); }, 1000);
+    setTimeout(() => {
+      makeAiMove();
+    }, 1000);
     return;
   }
   updateStatus(`${currentPlayer} player's turn`);
 };
 
 const makeAiMove = () => {
-  const availableMoves =
-      board.reduce((acc, cur, i) => (cur === '' ? [...acc, i ] : acc), []);
+  const availableMoves = board.reduce(
+    (acc, cur, i) => (cur === "" ? [...acc, i] : acc),
+    []
+  );
   const randomIndex = Math.floor(Math.random() * availableMoves.length);
   const randomMove = availableMoves[randomIndex];
   updateBoard(randomMove, aiPlayer);
@@ -67,16 +72,16 @@ const makeAiMove = () => {
 const checkWinner = () => {
   const winningMoves = [
     // rows
-    [ 0, 1, 2 ],
-    [ 3, 4, 5 ],
-    [ 6, 7, 8 ],
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
     // columns
-    [ 0, 3, 6 ],
-    [ 1, 4, 7 ],
-    [ 2, 5, 8 ],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
     // diagonals
-    [ 0, 4, 8 ],
-    [ 2, 4, 6 ],
+    [0, 4, 8],
+    [2, 4, 6],
   ];
 
   for (let i = 0; i < winningMoves.length; i++) {
@@ -86,20 +91,21 @@ const checkWinner = () => {
 
       updateStatus(gameStatus);
       gameOn = false;
-      gameStatus.includes('won') && (resetBtnEl.innerText = 'Play again');
-      const winnerElements = [ boardEl[a], boardEl[b], boardEl[c] ];
+      gameStatus.includes("won") && (resetBtnEl.innerText = "Play again");
+      const winnerElements = [boardEl[a], boardEl[b], boardEl[c]];
       winnerElements.forEach((el) => {
-        el.classList.add('winner');
-        el.innerHTML = board[a] === 'X'
-                           ? svgX.replace('currentColor', '#FF7F50 ')
-                           : svgO.replace('currentColor', '#457B9D ');
+        el.classList.add("winner");
+        el.innerHTML =
+          board[a] === "X"
+            ? svgX.replace("currentColor", "#FF7F50 ")
+            : svgO.replace("currentColor", "#457B9D ");
       });
       return;
     }
   }
 
-  if (!board.includes('')) {
-    gameStatus = 'Draw!';
+  if (!board.includes("")) {
+    gameStatus = "Draw!";
     updateStatus(gameStatus);
     gameOn = false;
   }
@@ -107,32 +113,32 @@ const checkWinner = () => {
 
 const updateBoard = (index, player) => {
   board[index] = player;
-  boardEl[index].innerHTML = player === 'X' ? svgX : svgO;
+  boardEl[index].innerHTML = player === "X" ? svgX : svgO;
   checkWinner();
-  if (gameOn)
-    updatePlayer();
+  if (gameOn) updatePlayer();
 };
 
 const resetGame = () => {
-  board = [ '', '', '', '', '', '', '', '', '' ];
-  currentPlayer = 'X';
-  gameStatus = '';
-  resetBtnEl.innerText = 'Reset';
+  board = ["", "", "", "", "", "", "", "", ""];
+  currentPlayer = "X";
+  gameStatus = "";
+  resetBtnEl.innerText = "Reset";
   gameOn = true;
   boardEl.forEach((square) => {
-    square.textContent = '';
-    square.classList.remove('winner');
-    square.classList.remove('rotate');
-    square.classList.remove('scale');
+    square.textContent = "";
+    square.classList.remove("winner");
+    square.classList.remove("rotate");
+    square.classList.remove("scale");
   });
   updateStatus(`${currentPlayer} player's turn`);
 
-  isAiPlayer ? (playingWith.innerText = 'Playing against computer')
-             : (playingWith.innerText = 'Playing against human');
+  isAiPlayer
+    ? (playingWith.innerText = "Playing against computer")
+    : (playingWith.innerText = "Playing against human");
 };
 
 boardEl.forEach((square, index) => {
-  square.addEventListener('click', () => {
+  square.addEventListener("click", () => {
     if (board[index] || !gameOn) {
       return;
     }
@@ -140,6 +146,6 @@ boardEl.forEach((square, index) => {
   });
 });
 
-resetBtnEl.addEventListener('click', resetGame);
+resetBtnEl.addEventListener("click", resetGame);
 
 updateStatus(`${currentPlayer} player's turn`);

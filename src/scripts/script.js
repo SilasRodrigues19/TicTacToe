@@ -55,7 +55,14 @@ const updatePlayer = () => {
   updateStatus(`${currentPlayer} player's turn`);
 };
 
+let isMakingMove = false;
+
+
 const makeAiMove = () => {
+  if (isMakingMove) return; 
+
+  isMakingMove = true;
+
   const availableMoves = board.reduce(
     (acc, cur, i) => (cur === '' ? [...acc, i] : acc),
     []
@@ -63,7 +70,13 @@ const makeAiMove = () => {
   const randomIndex = Math.floor(Math.random() * availableMoves.length);
   const randomMove = availableMoves[randomIndex];
   updateBoard(randomMove, aiPlayer);
-  console.log(winningMoves[0]);
+
+  setTimeout(() => {
+    isMakingMove = false;
+    if (currentPlayer === aiPlayer && isAiPlayer) {
+      makeAiMove();
+    }
+  }, 1000);
 };
 
 const checkWinner = () => {
@@ -119,7 +132,7 @@ const resetGame = () => {
   board = ['', '', '', '', '', '', '', '', ''];
   currentPlayer = 'X';
   gameStatus = '';
-  resetBtnEl.innerText = 'Reset';
+  resetBtnEl.innerText = 'Restart Game';
   gameOn = true;
   boardEl.forEach((square) => {
     square.textContent = '';
@@ -136,7 +149,12 @@ const resetGame = () => {
 
 boardEl.forEach((square, index) => {
   square.addEventListener('click', () => {
-    if (board[index] || !gameOn) {
+    if (
+      isMakingMove ||
+      board[index] ||
+      !gameOn ||
+      (isAiPlayer && currentPlayer === aiPlayer)
+    ) {
       return;
     }
     updateBoard(index, currentPlayer);

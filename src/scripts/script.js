@@ -67,6 +67,12 @@ const makeAiMove = () => {
     (acc, cur, i) => (cur === '' ? [...acc, i] : acc),
     []
   );
+
+  if (!gameOn) {
+    isMakingMove = false;
+    return;
+  }
+
   const randomIndex = Math.floor(Math.random() * availableMoves.length);
   const randomMove = availableMoves[randomIndex];
   updateBoard(randomMove, aiPlayer);

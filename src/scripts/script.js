@@ -49,11 +49,13 @@ const updatePlayer = () => {
   if (currentPlayer === aiPlayer && isAiPlayer) {
     setTimeout(() => {
       makeAiMove();
-    }, 1000);
-    return;
+    }, 500);
+    updateStatus("Computer's turn");
+  } else {
+    updateStatus(`${currentPlayer} player's turn`);
   }
-  updateStatus(`${currentPlayer} player's turn`);
 };
+
 
 let isMakingMove = false;
 
@@ -82,7 +84,7 @@ const makeAiMove = () => {
     if (currentPlayer === aiPlayer && isAiPlayer) {
       makeAiMove();
     }
-  }, 1000);
+  }, 500);
 };
 
 const checkWinner = () => {
@@ -103,7 +105,9 @@ const checkWinner = () => {
   for (let i = 0; i < winningMoves.length; i++) {
     const [a, b, c] = winningMoves[i];
     if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-      gameStatus = `${currentPlayer} won!`;
+
+      (isAiPlayer && currentPlayer === 'O') ? gameStatus = `Computer's won!` :
+      gameStatus = `${currentPlayer} player won!`;
 
       updateStatus(gameStatus);
       gameOn = false;
